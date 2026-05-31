@@ -51,13 +51,26 @@
 }
 
 body {
-  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", arial, sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 1.2;
   background: var(--color-bg);
   color: var(--color-text-high);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Plus Jakarta Sans solo para títulos y UI elements */
+.hero h1,
+.step-title,
+.errors-header,
+.header-logo-name,
+.hero-eyebrow,
+.timeline-label,
+.step-badge,
+.btn-primary,
+.btn-ghost {
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", arial, sans-serif;
 }
 
 a {
@@ -141,6 +154,24 @@ code {
   color: var(--color-text-low);
 }
 
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-high);
+  border: 1px solid var(--color-border);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-ghost:hover {
+  background: var(--color-bg);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-high);
+  text-decoration: none;
+}
+
 .btn-primary {
   background: var(--color-primary);
   color: #fff;
@@ -159,7 +190,11 @@ code {
 
 /* ─── Hero ───────────────────────────────────────────────── */
 .hero {
-  background: var(--color-primary-surface);
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 40%, rgba(0, 89, 213, 0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 70% at 85% 60%, rgba(0, 200, 123, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 40% at 50% 100%, rgba(150, 193, 252, 0.15) 0%, transparent 60%),
+    #eef5ff;
   padding: 40px 24px;
   text-align: center;
   border-bottom: 1px solid var(--color-border-strong);
@@ -218,34 +253,43 @@ code {
   cursor: pointer;
 }
 
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 89, 213, 0.35); }
+  70%  { box-shadow: 0 0 0 8px rgba(0, 89, 213, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 89, 213, 0); }
+}
+
+@keyframes fill-connector {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}
+
 .timeline-item:hover .timeline-circle {
-  opacity: 0.85;
+  transform: scale(1.1);
 }
 
 .timeline-circle {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 700;
-  transition: transform 0.15s;
-}
-
-.timeline-circle:hover {
-  transform: scale(1.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .timeline-circle.active {
   background: var(--color-primary);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 89, 213, 0.30);
+  animation: pulse-ring 2s ease-out infinite;
 }
 
 .timeline-circle.pending {
-  background: var(--color-bg);
+  background: var(--color-card);
   color: var(--color-text-muted);
   border: 2px solid var(--color-border-strong);
 }
@@ -254,10 +298,12 @@ code {
   font-size: 0.6875rem;
   font-weight: 600;
   white-space: nowrap;
+  transition: color 0.3s ease;
 }
 
 .timeline-label.active {
-  color: var(--color-text-high);
+  color: var(--color-primary);
+  font-weight: 700;
 }
 
 .timeline-label.pending {
@@ -265,15 +311,16 @@ code {
 }
 
 .timeline-connector {
-  width: 48px;
-  height: 2px;
+  width: 56px;
+  height: 3px;
   border-radius: 2px;
-  margin-top: 17px;
+  margin-top: 18px;
   flex-shrink: 0;
+  transition: background 0.4s ease;
 }
 
 .timeline-connector.active {
-  background: var(--color-primary);
+  background: linear-gradient(90deg, var(--color-primary) 0%, #4d8fe8 100%);
 }
 
 .timeline-connector.pending {
