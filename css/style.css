@@ -51,7 +51,7 @@
 }
 
 body {
-  font-family: 'Geist', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   background: var(--color-bg);
   color: var(--color-text-high);
   line-height: 1.6;
