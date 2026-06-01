@@ -4,7 +4,7 @@
   --color-primary:          #0059d5;
   --color-primary-hover:    #0047b0;
   --color-primary-surface:  #EEF5FF;
-  --color-primary-highlight:#96c1fc;
+  --color-primary-highlight:#96C1FC;
 
   /* Accent — indigo (technical personality) */
   --color-accent:           #6366f1;
@@ -34,8 +34,8 @@
 
   /* Code */
   --color-code-bg:          #0F172A;
-  --color-code-var:         #93c5fd;
-  --color-code-string:      #6ee7b7;
+  --color-code-var:         #93C5FD;
+  --color-code-string:      #6EE7B7;
   --color-code-comment:     #64748b;
 
   /* Layout */
