@@ -708,3 +708,110 @@ code {
 .error-card.warning .error-solution { color: #78350f; }
 
 .error-card code { background: rgba(0,0,0,0.07); padding: 1px 4px; border-radius: 3px; }
+
+/* ─── Footer ─────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-text-high);
+  color: var(--color-text-muted);
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8125rem;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.footer-links { display: flex; gap: 20px; }
+
+.footer-link {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  transition: color 0.15s;
+}
+
+.footer-link:hover { color: #e2e8f0; text-decoration: none; }
+
+.footer-link-primary {
+  color: var(--color-primary-highlight);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  transition: color 0.15s;
+}
+
+.footer-link-primary:hover { color: #fff; text-decoration: none; }
+
+/* ─── Responsive — tablet (768–1023px) ───────────────────── */
+@media (max-width: 1023px) {
+  .layout { grid-template-columns: 1fr; }
+
+  .sidebar {
+    position: sticky;
+    top: var(--header-height);
+    height: auto;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 20px;
+    overflow-x: auto;
+    z-index: 40;
+  }
+
+  .sidebar-steps {
+    flex-direction: row;
+    gap: 0;
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .sidebar-item {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    min-width: fit-content;
+  }
+
+  .sidebar-connector-wrap {
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+  }
+
+  .sidebar-line {
+    width: 32px;
+    height: 2px;
+    min-height: unset;
+    margin: 0 4px;
+  }
+
+  .sidebar-label { padding-top: 0; font-size: 0.75rem; }
+
+  .sidebar-footer { display: none; }
+
+  .hero { padding: 32px 24px; }
+  .main-content { padding: 0 24px 40px; }
+}
+
+/* ─── Responsive — mobile (< 768px) ─────────────────────── */
+@media (max-width: 767px) {
+  .hero { padding: 28px 16px; }
+  .hero h1 { font-size: 1.875rem; }
+
+  .sidebar { padding: 8px 12px; }
+  .sidebar-item { padding: 4px 8px; }
+  .sidebar-label { display: none; }
+  .sidebar-line { width: 20px; }
+
+  .main-content { padding: 0 16px 32px; }
+
+  .errors-grid { grid-template-columns: 1fr; }
+
+  .site-footer { flex-direction: column; align-items: flex-start; padding: 16px; }
+
+  .header-badge { display: none; }
+  .step-decorative-num { display: none; }
+}
