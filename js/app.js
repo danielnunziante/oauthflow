@@ -81,8 +81,77 @@ function renderError(error) {
 }
 
 // ─── State ─────────────────────────────────────────────────
+const STORAGE_KEY = 'oauth-flow-completed-steps';
 let currentActiveStep = 1;
-let completedSteps = new Set(); // expanded with localStorage in task 10
+let completedSteps = new Set();
+
+// ─── localStorage persistence ───────────────────────────────
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedSteps]));
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    completedSteps = new Set(raw ? JSON.parse(raw) : []);
+  } catch {
+    completedSteps = new Set();
+  }
+}
+
+function updateProgress() {
+  const count = completedSteps.size;
+  const total = STEPS.length;
+  const pct   = total > 0 ? (count / total) * 100 : 0;
+
+  const fill = document.getElementById('progress-fill');
+  const text = document.getElementById('progress-text');
+  const bar  = document.getElementById('progress-bar');
+
+  if (fill) fill.style.width = `${pct}%`;
+  if (text) text.textContent = `${count} de ${total} pasos completados`;
+  if (bar)  bar.setAttribute('aria-valuenow', String(count));
+}
+
+function restoreCompletedBadges() {
+  completedSteps.forEach((stepId) => {
+    const badge = document.getElementById(`badge-${stepId}`);
+    if (badge) badge.style.display = 'inline-flex';
+
+    const btn = document.querySelector(`.complete-btn[data-complete="${stepId}"]`);
+    if (btn) btn.style.display = 'none';
+  });
+}
+
+// ─── Mark step as done ──────────────────────────────────────
+
+function markStepDone(stepId) {
+  if (completedSteps.has(stepId)) return;
+
+  completedSteps.add(stepId);
+  saveProgress();
+  updateProgress();
+  updateSidebarState(currentActiveStep);
+
+  const badge = document.getElementById(`badge-${stepId}`);
+  if (badge) badge.style.display = 'inline-flex';
+
+  const btn = document.querySelector(`.complete-btn[data-complete="${stepId}"]`);
+  if (btn) btn.style.display = 'none';
+}
+
+// ─── Wire complete buttons ──────────────────────────────────
+
+function initCompleteButtons() {
+  document.querySelectorAll('.complete-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const stepId = parseInt(btn.dataset.complete, 10);
+      if (!Number.isFinite(stepId)) return;
+      markStepDone(stepId);
+    });
+  });
+}
 
 // ─── Sidebar render ────────────────────────────────────────
 
@@ -220,6 +289,7 @@ function initCopyButtons() {
 // ─── Init ──────────────────────────────────────────────────
 
 function init() {
+  loadProgress();
   renderSidebar();
 
   const stepsContainer = document.getElementById('steps-container');
@@ -233,9 +303,13 @@ function init() {
   }
 
   updateSidebarState(1);
+  updateProgress();
+  restoreCompletedBadges();
+
   initSidebar();
   initScrollObserver();
   initCopyButtons();
+  initCompleteButtons();
 
   if (typeof Prism !== 'undefined') Prism.highlightAll();
 }
