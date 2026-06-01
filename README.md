@@ -34,11 +34,13 @@ Más una sección de **errores frecuentes**: 401 Unauthorized, 403 Forbidden, 40
 No requiere instalación ni servidor. Abrí el archivo directo en el navegador:
 
 ```bash
-git clone https://github.com/TU_USUARIO/tiendanube-oauth-flow.git
+git clone git@github.com:danielnunziante/oauthflow.git
 cd tiendanube-oauth-flow
 open index.html        # macOS
 # o
 start index.html       # Windows
+# o
+https://danielnunziante.github.io/oauthflow/
 ```
 
 ---
