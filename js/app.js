@@ -62,9 +62,19 @@ function renderStep(step) {
 // ─── Render error card ─────────────────────────────────────
 
 function renderError(error) {
+  const isDanger = error.type === 'danger';
+  const iconPath = isDanger
+    ? 'M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22z'
+    : 'M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z';
+
   return `
     <div class="error-card ${error.type}">
-      <div class="error-code">${error.code}</div>
+      <div class="error-card-header">
+        <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+          <path fill-rule="evenodd" d="${iconPath}" clip-rule="evenodd"/>
+        </svg>
+        <span class="error-code">${error.code}</span>
+      </div>
       <div class="error-cause">${error.cause}</div>
       <div class="error-solution">${error.solution}</div>
     </div>
@@ -173,15 +183,17 @@ function initCopyButtons() {
 
       try {
         await navigator.clipboard.writeText(step.code);
-        btn.textContent = '¡Copiado!';
+        btn.innerHTML = `${COPIED_ICON}<span class="copy-text">¡Copiado!</span>`;
         btn.classList.add('copied');
         setTimeout(() => {
-          btn.textContent = 'Copiar';
+          btn.innerHTML = `${COPY_ICON}<span class="copy-text">Copiar</span>`;
           btn.classList.remove('copied');
         }, 2000);
       } catch {
-        btn.textContent = 'Error al copiar';
-        setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+        btn.innerHTML = `<span class="copy-text">Error al copiar</span>`;
+        setTimeout(() => {
+          btn.innerHTML = `${COPY_ICON}<span class="copy-text">Copiar</span>`;
+        }, 2000);
       }
     });
   });
