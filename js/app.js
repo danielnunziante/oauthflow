@@ -27,7 +27,7 @@ const WARNING_ICON = `<svg class="error-icon" viewBox="0 0 20 20" fill="currentC
 
 function renderStep(step) {
   const warningHtml = step.warning
-    ? `<div class="warning-inline">${WARN_ICON}${step.warning}</div>`
+    ? `<div class="warning-inline">${WARN_ICON}<span>${step.warning}</span></div>`
     : '';
   const stepNum = String(step.id).padStart(2, '0');
 
@@ -54,7 +54,7 @@ function renderStep(step) {
           <pre><code class="language-${step.codeLang}">${escapeHtml(step.code)}</code></pre>
         </div>
         ${warningHtml}
-        <div class="tip">${INFO_ICON}${step.tip}</div>
+        <div class="tip">${INFO_ICON}<span>${step.tip}</span></div>
         <button class="complete-btn" data-complete="${step.id}">
           ${CHECK_ICON} Marcar como completado
         </button>

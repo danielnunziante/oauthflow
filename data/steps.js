@@ -112,7 +112,28 @@ const ERRORS = [
     type: "danger",
     cause: "Token inválido, ausente, o header mal formado.",
     solution:
-      "Verificá que el header sea <code>Authentication: bearer TU_TOKEN</code>. El nombre es <code>Authentication</code>, no <code>Authorization</code>.",
+      "El header se llama <code>Authentication</code>, no <code>Authorization</code>. Formato: <code>Authentication: bearer TU_TOKEN</code>.",
+  },
+  {
+    code: "403 Forbidden",
+    type: "danger",
+    cause: "El token no tiene permisos para el recurso solicitado.",
+    solution:
+      "Revisá que la app tenga los scopes necesarios. El dueño de la tienda puede haber revocado el acceso.",
+  },
+  {
+    code: "404 Not Found",
+    type: "warning",
+    cause: "Endpoint incorrecto o <code>store_id</code> inválido.",
+    solution:
+      "Confirmá que la URL use el <code>user_id</code> devuelto en el intercambio de token como <code>store_id</code>.",
+  },
+  {
+    code: "429 Too Many Requests",
+    type: "warning",
+    cause: "Superaste el límite de requests por ventana de tiempo.",
+    solution:
+      "Implementá backoff exponencial. La API de Tiendanube tiene rate limits por store y por app.",
   },
   {
     code: "redirect_uri mismatch",
@@ -126,7 +147,7 @@ const ERRORS = [
     type: "warning",
     cause: "El <code>code</code> de autorización ya fue usado o expiró.",
     solution:
-      "Reiniciá el flujo OAuth desde el principio. Cada <code>code</code> funciona una sola vez.",
+      "Reiniciá el flujo OAuth desde el principio. Cada <code>code</code> es de un solo uso.",
   },
   {
     code: "invalid_client",
@@ -134,5 +155,12 @@ const ERRORS = [
     cause: "<code>client_id</code> o <code>client_secret</code> incorrectos.",
     solution:
       "Verificá tus credenciales en el portal de partners. Revisá que no haya espacios extra en las variables de entorno.",
+  },
+  {
+    code: "User-Agent requerido",
+    type: "warning",
+    cause: "Request rechazado por falta del header <code>User-Agent</code>.",
+    solution:
+      "Incluí siempre <code>User-Agent: NombreApp/1.0 (email@ejemplo.com)</code> en cada llamado a la API.",
   },
 ];
