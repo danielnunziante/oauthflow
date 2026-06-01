@@ -88,13 +88,18 @@ let completedSteps = new Set();
 // ─── localStorage persistence ───────────────────────────────
 
 function saveProgress() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedSteps]));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedSteps]));
+  } catch {
+    // localStorage unavailable or quota exceeded — progress won't persist
+  }
 }
 
 function loadProgress() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    completedSteps = new Set(raw ? JSON.parse(raw) : []);
+    const parsed = JSON.parse(raw);
+    completedSteps = new Set(Array.isArray(parsed) ? parsed : []);
   } catch {
     completedSteps = new Set();
   }
