@@ -154,6 +154,7 @@ function initSidebar() {
   document.querySelectorAll('.sidebar-item').forEach((item) => {
     const handler = () => {
       const stepId = parseInt(item.dataset.step, 10);
+      if (!Number.isFinite(stepId)) return;
       const target = document.getElementById(`paso-${stepId}`);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
