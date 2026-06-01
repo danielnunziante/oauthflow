@@ -80,78 +80,96 @@ function renderError(error) {
   `;
 }
 
-// ─── Render timeline ───────────────────────────────────────
+// ─── State ─────────────────────────────────────────────────
+let currentActiveStep = 1;
+let completedSteps = new Set(); // expanded with localStorage in task 10
 
-function renderTimeline() {
-  const container = document.getElementById('timeline');
+// ─── Sidebar render ────────────────────────────────────────
+
+function renderSidebar() {
+  const container = document.getElementById('sidebar-steps');
   if (!container) return;
 
   let html = '';
   STEPS.forEach((step, index) => {
+    const hasLine = index < STEPS.length - 1;
     html += `
-      <div class="timeline-item" data-step="${step.id}" role="button"
-           tabindex="0" aria-label="Ir al paso ${step.id}: ${step.title}">
-        <div class="timeline-circle pending" id="tc-${step.id}">${step.id}</div>
-        <span class="timeline-label pending" id="tl-${step.id}">${step.title.split(' ')[0]}</span>
+      <div class="sidebar-item" data-step="${step.id}"
+           role="button" tabindex="0"
+           aria-label="Ir al paso ${step.id}: ${step.title}">
+        <div class="sidebar-connector-wrap">
+          <div class="sidebar-circle pending" id="sc-${step.id}">${step.id}</div>
+          ${hasLine ? `<div class="sidebar-line" id="sl-${step.id}"></div>` : ''}
+        </div>
+        <span class="sidebar-label" id="slabel-${step.id}">${step.title}</span>
       </div>
     `;
-    if (index < STEPS.length - 1) {
-      html += `<div class="timeline-connector pending" id="conn-${step.id}"></div>`;
-    }
   });
 
   container.innerHTML = html;
 }
 
-// ─── Timeline interactivity ────────────────────────────────
+// ─── Sidebar state ──────────────────────────────────────────
 
-function activateStep(stepId) {
+function updateSidebarState(activeStepId) {
+  currentActiveStep = activeStepId;
+
   STEPS.forEach((step) => {
-    const circle = document.getElementById(`tc-${step.id}`);
-    const label  = document.getElementById(`tl-${step.id}`);
-    const conn   = document.getElementById(`conn-${step.id}`);
-    const badge  = document.getElementById(`badge-${step.id}`);
+    const circle = document.getElementById(`sc-${step.id}`);
+    const label  = document.getElementById(`slabel-${step.id}`);
+    const line   = document.getElementById(`sl-${step.id}`);
+    if (!circle) return;
 
-    if (step.id <= stepId) {
-      circle.className = 'timeline-circle active';
-      label.className  = 'timeline-label active';
-      if (conn) conn.className = 'timeline-connector active';
+    const isDone   = completedSteps.has(step.id);
+    const isActive = step.id === activeStepId;
+
+    if (isDone) {
+      circle.className = 'sidebar-circle done';
+      circle.innerHTML = CHECK_ICON;
+    } else if (isActive) {
+      circle.className = 'sidebar-circle active';
+      circle.textContent = step.id;
     } else {
-      circle.className = 'timeline-circle pending';
-      label.className  = 'timeline-label pending';
-      if (conn) conn.className = 'timeline-connector pending';
+      circle.className = 'sidebar-circle pending';
+      circle.textContent = step.id;
     }
 
-    if (badge) {
-      badge.style.display = step.id < stepId ? 'inline-block' : 'none';
+    if (label) {
+      label.className = isActive ? 'sidebar-label active'
+                      : isDone  ? 'sidebar-label done'
+                      :           'sidebar-label';
+    }
+
+    if (line) {
+      line.className = (step.id < activeStepId || isDone)
+        ? 'sidebar-line active'
+        : 'sidebar-line';
     }
   });
 }
 
-function initTimeline() {
-  const items = document.querySelectorAll('.timeline-item');
+// ─── Sidebar navigation ─────────────────────────────────────
 
-  items.forEach((item) => {
+function initSidebar() {
+  document.querySelectorAll('.sidebar-item').forEach((item) => {
     const handler = () => {
       const stepId = parseInt(item.dataset.step, 10);
       const target = document.getElementById(`paso-${stepId}`);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        activateStep(stepId);
+        updateSidebarState(stepId);
       }
     };
 
     item.addEventListener('click', handler);
     item.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        handler();
-      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); }
     });
   });
 }
 
-// Highlight active step on scroll via IntersectionObserver
+// ─── Scroll observer ───────────────────────────────────────
+
 function initScrollObserver() {
   const cards = document.querySelectorAll('.step-card');
   if (!cards.length || !('IntersectionObserver' in window)) return;
@@ -161,11 +179,11 @@ function initScrollObserver() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const stepId = parseInt(entry.target.id.replace('paso-', ''), 10);
-          activateStep(stepId);
+          updateSidebarState(stepId);
         }
       });
     },
-    { threshold: 0.4 }
+    { threshold: 0.35 }
   );
 
   cards.forEach((card) => observer.observe(card));
@@ -201,33 +219,24 @@ function initCopyButtons() {
 // ─── Init ──────────────────────────────────────────────────
 
 function init() {
-  // Render timeline
-  renderTimeline();
+  renderSidebar();
 
-  // Render step cards
   const stepsContainer = document.getElementById('steps-container');
   if (stepsContainer) {
     stepsContainer.innerHTML = STEPS.map(renderStep).join('');
   }
 
-  // Render error cards
   const errorsContainer = document.getElementById('errors-container');
   if (errorsContainer) {
     errorsContainer.innerHTML = ERRORS.map(renderError).join('');
   }
 
-  // Activate first step by default
-  activateStep(1);
-
-  // Wire up interactions
-  initTimeline();
+  updateSidebarState(1);
+  initSidebar();
   initScrollObserver();
   initCopyButtons();
 
-  // Trigger Prism highlighting on dynamically rendered code
-  if (typeof Prism !== 'undefined') {
-    Prism.highlightAll();
-  }
+  if (typeof Prism !== 'undefined') Prism.highlightAll();
 }
 
 document.addEventListener('DOMContentLoaded', init);
