@@ -18,66 +18,134 @@
   <!-- HEADER -->
   <header class="site-header">
     <div class="header-logo">
-      <div class="header-logo-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26C17.81 13.47 19 11.38 19 9c0-3.87-3.13-7-7-7zm-1 14v-1h2v1h-2zm3-3.1V15h-4v-2.1C8.48 12.07 7 10.67 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.67-1.48 3.07-3 3.9z"/>
+      <div class="header-logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+          <path fill="#fff" d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26C17.81 13.47 19 11.38 19 9c0-3.87-3.13-7-7-7zm-1 14v-1h2v1h-2zm3-3.1V15h-4v-2.1C8.48 12.07 7 10.67 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.67-1.48 3.07-3 3.9z"/>
         </svg>
       </div>
       <span class="header-logo-name">OAuthFlow</span>
       <span class="header-badge">Guía para partners</span>
     </div>
-    <nav class="header-nav">
-      <a href="https://tiendanube.github.io/api-documentation/" target="_blank" rel="noopener">Docs API</a>
-      <a href="https://github.com" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
+    <nav class="header-nav" aria-label="Links externos">
+      <a href="https://tiendanube.github.io/api-documentation/" target="_blank" rel="noopener" class="header-link">Docs API</a>
+      <a href="https://github.com" target="_blank" rel="noopener" class="btn-ghost" aria-label="Ver en GitHub">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        GitHub
+      </a>
     </nav>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <span class="hero-eyebrow">Guía técnica · Partners Tiendanube</span>
-    <h1>¿Cómo funciona OAuth<br>en Tiendanube?</h1>
-    <p class="hero-subtitle">Guía paso a paso para que tu app pueda acceder a los datos de una tienda con autorización del dueño.</p>
+  <!-- TWO-COLUMN LAYOUT -->
+  <div class="layout">
 
-    <!-- TIMELINE -->
-    <div class="timeline-card" id="timeline" role="navigation" aria-label="Pasos del flujo OAuth">
-      <!-- Renderizado por app.js -->
-    </div>
-    <p class="hero-hint">Hacé click en un paso para ir directo a esa sección ↓</p>
-  </section>
-
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="main-content">
-
-    <!-- Banner de contexto -->
-    <p class="context-banner">
-      Esta guía es una <strong>demo educativa</strong>. No reemplaza la
-      <a href="https://tiendanube.github.io/api-documentation/" target="_blank" rel="noopener">documentación oficial de Tiendanube</a>.
-      Los ejemplos usan Node.js, pero el flujo aplica a cualquier lenguaje.
-    </p>
-
-    <!-- Cards de los 5 pasos -->
-    <div id="steps-container">
-      <!-- Renderizado por app.js -->
-    </div>
-
-    <!-- Errores frecuentes -->
-    <section class="errors-section" id="errores">
-      <h2 class="errors-header">Errores frecuentes y cómo resolverlos</h2>
-      <div class="errors-grid" id="errors-container">
-        <!-- Renderizado por app.js -->
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Pasos del flujo OAuth">
+      <nav id="sidebar-steps" class="sidebar-steps">
+        <!-- Rendered by app.js -->
+      </nav>
+      <div class="sidebar-footer">
+        <hr class="sidebar-divider" />
+        <p class="progress-label">Progreso</p>
+        <div class="progress-track" role="progressbar"
+             aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" id="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p class="progress-text" id="progress-text">0 de 5 pasos completados</p>
       </div>
-    </section>
+    </aside>
 
-  </main>
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <span>OAuthFlow · Demo educativa · No es un producto oficial de Tiendanube</span>
-    <nav class="footer-links">
-      <a href="https://tiendanube.github.io/api-documentation/" target="_blank" rel="noopener" class="primary-link">Docs oficiales TN ↗</a>
-      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
-    </nav>
-  </footer>
+      <!-- HERO -->
+      <section class="hero">
+        <span class="hero-eyebrow">Guía técnica · Partners Tiendanube</span>
+        <h1>¿Cómo funciona OAuth<br>en Tiendanube?</h1>
+        <p class="hero-subtitle">Guía paso a paso para que tu app pueda acceder a los datos de una tienda con autorización del dueño.</p>
+
+        <!-- Inline SVG — OAuth Flow Diagram -->
+        <div class="diagram-wrap">
+          <svg class="oauth-diagram" viewBox="0 0 620 175" xmlns="http://www.w3.org/2000/svg"
+               role="img" aria-labelledby="oauth-diagram-title" width="100%">
+            <title id="oauth-diagram-title">Flujo OAuth: Tu App redirige al dueño a Tiendanube para aprobar acceso; Tiendanube devuelve un access_token a Tu App.</title>
+            <defs>
+              <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#0059d5"/>
+              </marker>
+              <marker id="arr-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#007447"/>
+              </marker>
+            </defs>
+
+            <!-- Node: Tu App -->
+            <rect x="10" y="28" width="130" height="64" rx="12" fill="#EEF2FF" stroke="#6366f1" stroke-width="1.5"/>
+            <text x="75" y="56" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="12" font-weight="600" fill="#4338ca">Tu App</text>
+            <text x="75" y="76" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="10" fill="#6366f1">cliente OAuth</text>
+
+            <!-- Node: Tiendanube -->
+            <rect x="230" y="28" width="160" height="64" rx="12" fill="#EEF5FF" stroke="#0059d5" stroke-width="1.5"/>
+            <text x="310" y="56" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="12" font-weight="600" fill="#003d99">Tiendanube</text>
+            <text x="310" y="76" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="10" fill="#0059d5">servidor OAuth</text>
+
+            <!-- Node: Dueño tienda -->
+            <rect x="470" y="28" width="140" height="64" rx="12" fill="#F0FDF4" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="540" y="56" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="12" font-weight="600" fill="#15803d">Dueño tienda</text>
+            <text x="540" y="76" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="10" fill="#16a34a">aprueba acceso</text>
+
+            <!-- Node: access_token -->
+            <rect x="230" y="118" width="160" height="44" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+            <text x="310" y="145" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600" fill="#92400e">access_token</text>
+
+            <!-- Path 1: Tu App → Tiendanube -->
+            <path id="d-path1" d="M 140 60 H 230" stroke="#0059d5" stroke-width="2" fill="none" marker-end="url(#arr-blue)"/>
+            <text x="185" y="50" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9" fill="#64748b">1. redirige</text>
+
+            <!-- Path 2: Tiendanube → Dueño -->
+            <path id="d-path2" d="M 390 60 H 470" stroke="#0059d5" stroke-width="2" fill="none" marker-end="url(#arr-blue)"/>
+            <text x="430" y="50" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9" fill="#64748b">2. aprueba</text>
+
+            <!-- Path 3: Dueño → Token (down then left) -->
+            <path id="d-path3" d="M 540 92 V 140 H 390" stroke="#007447" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
+            <text x="495" y="128" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9" fill="#64748b">3. code →</text>
+
+            <!-- Path 4: Token → Tu App (left then up) -->
+            <path id="d-path4" d="M 230 140 H 75 V 92" stroke="#007447" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
+            <text x="135" y="158" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9" fill="#64748b">4. ← token</text>
+          </svg>
+        </div>
+
+        <p class="hero-hint">Usá la barra lateral para navegar entre los pasos ↗</p>
+      </section>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <p class="context-banner">
+          Esta guía es una <strong>demo educativa</strong>. No reemplaza la
+          <a href="https://tiendanube.github.io/api-documentation/" target="_blank" rel="noopener">documentación oficial de Tiendanube</a>.
+          Los ejemplos usan Node.js, pero el flujo aplica a cualquier lenguaje.
+        </p>
+
+        <div id="steps-container"><!-- Rendered by app.js --></div>
+
+        <section class="errors-section" id="errores">
+          <h2 class="errors-header">Errores frecuentes y cómo resolverlos</h2>
+          <div class="errors-grid" id="errors-container"><!-- Rendered by app.js --></div>
+        </section>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="site-footer">
+        <span>OAuthFlow · Demo educativa · No es un producto oficial de Tiendanube</span>
+        <nav class="footer-links" aria-label="Links del footer">
+          <a href="https://tiendanube.github.io/api-documentation/" target="_blank" rel="noopener" class="footer-link-primary">Docs oficiales TN ↗</a>
+          <a href="https://github.com" target="_blank" rel="noopener" class="footer-link">GitHub</a>
+        </nav>
+      </footer>
+
+    </div><!-- /main-wrapper -->
+  </div><!-- /layout -->
 
   <!-- Scripts -->
   <script src="data/steps.js"></script>
